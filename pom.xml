@@ -110,7 +110,7 @@
         <version.lib.arquillian-weld-embedded>2.0.0.Final</version.lib.arquillian-weld-embedded>
         <version.lib.asciidoctor.diagram>1.5.4.1</version.lib.asciidoctor.diagram>
         <version.lib.asm>6.0</version.lib.asm>
-        <version.lib.brave-opentracing>0.31.0</version.lib.brave-opentracing>
+        <version.lib.brave-opentracing>0.34.0</version.lib.brave-opentracing>
         <version.lib.cdi-api>2.0</version.lib.cdi-api>
         <version.lib.checkstyle>8.18</version.lib.checkstyle>
         <version.lib.eclipselink>2.7.4</version.lib.eclipselink>
@@ -129,7 +129,7 @@
         <!-- Jackson databind 2.9.9 has patch versions. This bom has databind 2.9.9.3 -->
         <version.lib.jackson>2.9.9</version.lib.jackson>
         <version.lib.jackson-bom>2.9.9.20190807</version.lib.jackson-bom>
-        <version.lib.jaegertracing>0.34.0</version.lib.jaegertracing>
+        <version.lib.jaegertracing>0.35.5</version.lib.jaegertracing>
         <version.lib.jakarta-persistence-api>2.2.2</version.lib.jakarta-persistence-api>
         <version.lib.jandex>2.1.1.Final</version.lib.jandex>
         <version.lib.jaxb-api>2.3.0</version.lib.jaxb-api>
@@ -162,7 +162,7 @@
         <version.netty.tcnative>2.0.25.Final</version.netty.tcnative>
         <version.lib.oci-java-sdk-objectstorage>1.5.2</version.lib.oci-java-sdk-objectstorage>
         <version.lib.ojdbc8>19.3.0.0</version.lib.ojdbc8>
-        <version.lib.opentracing>0.31.0</version.lib.opentracing>
+        <version.lib.opentracing>0.33.0</version.lib.opentracing>
         <version.lib.opentracing.grpc>0.0.12</version.lib.opentracing.grpc>
         <version.lib.persistence-api>2.2</version.lib.persistence-api>
         <version.lib.prometheus>0.6.0</version.lib.prometheus>
@@ -182,7 +182,7 @@
         <version.lib.ucp>19.3.0.0</version.lib.ucp>
         <version.lib.validation-api>2.0.1.Final</version.lib.validation-api>
         <version.lib.weld>3.1.1.Final</version.lib.weld>
-        <version.lib.zipkin>2.6.0</version.lib.zipkin>
+        <version.lib.zipkin>2.10.2</version.lib.zipkin>
         <version.lib.zipkin.junit>2.12.5</version.lib.zipkin.junit>
         <version.lib.bedrock>5.0.11</version.lib.bedrock>
         <version.lib.hystrix>1.5.18</version.lib.hystrix>

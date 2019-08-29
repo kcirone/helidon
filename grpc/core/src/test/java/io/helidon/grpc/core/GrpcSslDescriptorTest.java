@@ -15,6 +15,8 @@
  */
 package io.helidon.grpc.core;
 
+import java.io.File;
+
 import io.helidon.config.Config;
 import io.helidon.config.ConfigSources;
 
@@ -63,7 +65,10 @@ public class GrpcSslDescriptorTest {
         assertThat(desc, notNullValue());
         assertThat(desc.isEnabled(), equalTo(true));
         assertThat(desc.isJdkSSL(), equalTo(false));
-        String path = "src/test/resources/ssl/";
+        
+        String path = "src" + File.separator + 
+         "test" + File.separator + "resources" + File.separator + 
+         "ssl" + File.separator;
 
         assertThat(desc.tlsKey(), endsWith(path + "serverKey.pem"));
         assertThat(desc.tlsCert(), endsWith(path + "serverCert.pem"));

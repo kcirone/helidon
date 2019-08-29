@@ -34,7 +34,7 @@ import io.opentracing.Span;
 import io.opentracing.SpanContext;
 import io.opentracing.Tracer;
 import io.opentracing.propagation.Format;
-import io.opentracing.propagation.TextMapExtractAdapter;
+import io.opentracing.propagation.TextMapAdapter;
 import io.opentracing.tag.Tags;
 import io.opentracing.util.GlobalTracer;
 
@@ -251,7 +251,7 @@ public abstract class WebTracingConfig {
                     .collect(Collectors.toMap(Map.Entry::getKey,
                                               entry -> entry.getValue().get(0)));
             SpanContext inboundSpanContext = tracer
-                    .extract(Format.Builtin.HTTP_HEADERS, new TextMapExtractAdapter(headersMap));
+                    .extract(Format.Builtin.HTTP_HEADERS, new TextMapAdapter(headersMap));
             if (null != inboundSpanContext) {
                 // register as parent span
                 context.register(inboundSpanContext);

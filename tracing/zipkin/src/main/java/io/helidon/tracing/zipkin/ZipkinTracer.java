@@ -21,6 +21,7 @@ import java.util.List;
 import io.helidon.tracing.Tag;
 
 import brave.opentracing.BraveTracer;
+import io.opentracing.Scope;
 import io.opentracing.ScopeManager;
 import io.opentracing.Span;
 import io.opentracing.SpanContext;
@@ -40,6 +41,7 @@ import io.opentracing.propagation.Format;
 public class ZipkinTracer implements Tracer {
     private final BraveTracer tracer;
     private final List<Tag<?>> tags;
+    private final ZipkinScopeManager scopeManager;
 
     /**
      * Create a zipkin tracer from the delegate (BraveTracer) and
@@ -51,6 +53,8 @@ public class ZipkinTracer implements Tracer {
     public ZipkinTracer(BraveTracer tracer, List<Tag<?>> tags) {
         this.tracer = tracer;
         this.tags = tags;
+
+        this.scopeManager = new ZipkinScopeManager(tracer.scopeManager());
     }
 
     @Override
@@ -70,11 +74,21 @@ public class ZipkinTracer implements Tracer {
 
     @Override
     public ScopeManager scopeManager() {
-        return new ZipkinScopeManager(tracer.scopeManager());
+        return this.scopeManager;
+    }
+
+    @Override
+    public Scope activateSpan(Span span) {
+        return this.scopeManager.activate(span);
     }
 
     @Override
     public Span activeSpan() {
         return tracer.activeSpan();
+    }
+
+    @Override
+    public void close() {
+        tracer.close();
     }
 }

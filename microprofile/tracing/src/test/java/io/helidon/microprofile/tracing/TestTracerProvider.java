@@ -31,7 +31,7 @@ import io.opentracing.Span;
 import io.opentracing.SpanContext;
 import io.opentracing.Tracer;
 import io.opentracing.propagation.Format;
-import io.opentracing.propagation.TextMapInjectAdapter;
+import io.opentracing.propagation.TextMapAdapter;
 import io.opentracing.util.GlobalTracer;
 
 /**
@@ -111,28 +111,22 @@ public class TestTracerProvider implements TracerProvider {
         @Override
         public ScopeManager scopeManager() {
             return new ScopeManager() {
+                private Span span;
                 private Scope active;
                 @Override
-                public Scope activate(Span span, boolean finishSpanOnClose) {
-                    active = new Scope() {
+                public Scope activate(Span span) {
+                    this.span = span;
+                    this.active = new Scope() {
                         @Override
                         public void close() {
-                            if (finishSpanOnClose) {
-                                span.finish();
-                            }
-                        }
-
-                        @Override
-                        public Span span() {
-                            return span;
                         }
                     };
-                    return active;
+                    return this.active;
                 }
 
                 @Override
-                public Scope active() {
-                    return active;
+                public Span activeSpan() {
+                    return this.span;
                 }
             };
         }
@@ -140,6 +134,11 @@ public class TestTracerProvider implements TracerProvider {
         @Override
         public Span activeSpan() {
             return null;
+        }
+
+        @Override
+        public Scope activateSpan(Span span) {
+            return scopeManager().activate(span);
         }
 
         @Override
@@ -153,13 +152,17 @@ public class TestTracerProvider implements TracerProvider {
         public <C> void inject(SpanContext spanContext, Format<C> format, C carrier) {
             TestSpan span = ((TestSpanContext)spanContext).testSpan;
 
-            TextMapInjectAdapter adapter = (TextMapInjectAdapter) carrier;
+            TextMapAdapter adapter = (TextMapAdapter) carrier;
             adapter.put(OPERATION_NAME_HEADER, span.operationName);
         }
 
         @Override
         public <C> SpanContext extract(Format<C> format, C carrier) {
             return null;
+        }
+
+        @Override
+        public void close() {
         }
     }
 
@@ -197,6 +200,13 @@ public class TestTracerProvider implements TracerProvider {
         }
 
         @Override
+        public <T> Tracer.SpanBuilder withTag(io.opentracing.tag.Tag<T> key, T value) {
+            tags.add(Tag.create(key.getKey(), value != null ? value.toString(): null));
+            return this;
+        }
+
+
+        @Override
         public Tracer.SpanBuilder withTag(String key, String value) {
             tags.add(Tag.create(key, value));
             return this;
@@ -219,12 +229,12 @@ public class TestTracerProvider implements TracerProvider {
             return this;
         }
 
-        @Override
+        //@Override
         public Scope startActive(boolean finishSpanOnClose) {
              return new TestScope((TestSpan) start());
         }
 
-        @Override
+        //@Override
         public Span startManual() {
             return start();
         }
@@ -260,6 +270,11 @@ public class TestTracerProvider implements TracerProvider {
         @Override
         public SpanContext context() {
             return new TestSpanContext(this);
+        }
+
+        @Override
+        public <T> Span setTag(io.opentracing.tag.Tag<T> key, T value) {
+            return this;
         }
 
         @Override
@@ -331,6 +346,16 @@ public class TestTracerProvider implements TracerProvider {
         }
 
         @Override
+        public String toSpanId() {
+            return "99";
+        }
+
+        @Override
+        public String toTraceId() {
+            return "9999";
+        }
+
+        @Override
         public Iterable<Map.Entry<String, String>> baggageItems() {
             Map<String, String> map = CollectionsHelper.mapOf();
 
@@ -347,11 +372,6 @@ public class TestTracerProvider implements TracerProvider {
 
         @Override
         public void close() {
-        }
-
-        @Override
-        public Span span() {
-            return testSpan;
         }
     }
 }

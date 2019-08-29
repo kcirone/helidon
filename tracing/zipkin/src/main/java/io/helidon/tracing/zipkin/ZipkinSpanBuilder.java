@@ -60,6 +60,12 @@ class ZipkinSpanBuilder implements Tracer.SpanBuilder {
     }
 
     @Override
+    public <T> Tracer.SpanBuilder withTag(io.opentracing.tag.Tag<T> key, T value) {
+        spanBuilder.withTag(key, value);
+        return this;
+    }
+
+    @Override
     public Tracer.SpanBuilder withTag(String key, String value) {
         spanBuilder.withTag(key, value);
         return this;
@@ -98,7 +104,7 @@ class ZipkinSpanBuilder implements Tracer.SpanBuilder {
         return spanBuilder.ignoreActiveSpan();
     }
 
-    @Override
+    /* @Override
     public Scope startActive(boolean finishSpanOnClose) {
         return spanBuilder.startActive(finishSpanOnClose);
     }
@@ -106,5 +112,5 @@ class ZipkinSpanBuilder implements Tracer.SpanBuilder {
     @Override
     public Span startManual() {
         return null;
-    }
+    }*/
 }

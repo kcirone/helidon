@@ -53,6 +53,13 @@ class ZipkinSpan implements Span {
     }
 
     @Override
+    public <T> Span setTag(io.opentracing.tag.Tag<T> key, T value) {
+        span.setTag(key, value);
+        return this;
+    }
+
+
+    @Override
     public Span setTag(String key, String value) {
         span.setTag(key, value);
         return this;

@@ -35,9 +35,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GrpcChannelsProviderTest {
 
-    private static final String CLIENT_CERT = "/clientCert.pem";
-    private static final String CLIENT_KEY = "/clientKey.pem";
-    private static final String CA_CERT = "/ca.pem";
+    private static final String CLIENT_CERT = java.io.File.separator + "clientCert.pem";
+    private static final String CLIENT_KEY = java.io.File.separator + "clientKey.pem";
+    private static final String CA_CERT = java.io.File.separator + "ca.pem";
 
     private static final String DEFAULT_HOST_PORT_CFG = "default_host_port";
     private static final String DEFAULT_HOST_CFG = "default_host";
