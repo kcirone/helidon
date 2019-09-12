@@ -255,7 +255,7 @@ public abstract class WebTracingConfig {
                 }
             }
 
-            SpanContext inboundSpanContext = tracer.extract(Format.Builtin.HTTP_HEADERS, new TextMapExtractAdapter(headersMap));
+            SpanContext inboundSpanContext = tracer.extract(Format.Builtin.HTTP_HEADERS, new TextMapAdapter(headersMap));
 
             if (inboundSpanContext instanceof NoopSpanBuilder) {
                 // this is all a noop stuff, does not matter what I do here - this is to prevent null pointers

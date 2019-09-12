@@ -157,6 +157,12 @@ public class UrlConfigSource extends AbstractParsableConfigSource<Instant> {
 
     private String probeContentType() {
         String path = url.getPath();
+        if(path.contains(":")) {
+            //Avoid parsing issues with non-conforming paths (Windows, etc.)
+            //Should only need filename to get media type
+            path = path.substring(path.lastIndexOf("/"));
+        }
+
         return ConfigHelper.detectContentType(Paths.get(path));
     }
 
